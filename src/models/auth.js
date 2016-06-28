@@ -30,6 +30,7 @@ module.exports = {
   },
   effects: {
     attemptLogin: (action, state, send) => {
+      console.log(state)
       send('auth:attemptingLogin')
       const provider = new firebase.auth.GithubAuthProvider()
       auth.signInWithPopup(provider).catch(error => {

@@ -1,6 +1,6 @@
 const choo = require('choo')
 const sf = require('sheetify')
-
+const mainView = require('./views/main')
 // Firebase setup and initialization
 const firebase = require('firebase/app')
 require('firebase/auth')
@@ -15,29 +15,11 @@ firebase.initializeApp(firebaseConfig)
 // Sheetify
 sf('./styles.css', { global: true })
 
-// Views
-const authPanel = require('./views/auth-panel')
-const feedbackPanel = require('./views/feedback-panel')
-const quotesList = require('./views/quotes-list')
-
 const app = choo()
 
 app.model(require('./models/auth'))
 app.model(require('./models/feedback'))
 app.model(require('./models/quotes'))
-
-const mainView = (params, state, send) => {
-  console.log(state)
-  return choo.view`
-    <div class="wrapper">
-      ${authPanel(state.auth, send)}
-      <div class="center">
-       ${feedbackPanel(state.feedback, send)}
-       ${quotesList(state.quotes, state.auth, send)}
-      </div>
-    </div>
-  `
-}
 
 app.router(route => [
   route('/', mainView)
