@@ -12,7 +12,7 @@ module.exports = {
     dismiss: (action, state) => ({
       messages: state.messages.filter((msg, i) => action.num !== i)
     }),
-    displayError: (action, state) => state.messages.concat({ mgs: action.error, error: true }),
-    displayMessage: (action, state) => state.messages.concat({ mgs: action.message, error: false })
+    displayError: (action, state) => state.messages.concat({ msg: action.error, error: true }),
+    displayMessage: (action, state) => state.messages.concat({ msg: action.message, error: false })
   }
 }

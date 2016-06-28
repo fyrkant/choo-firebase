@@ -15,10 +15,6 @@ firebase.initializeApp(firebaseConfig)
 // Sheetify
 sf('./styles.css', { global: true })
 
-// Models
-const authModel = require('./models/auth')
-const feedbackModel = require('./models/feedback')
-
 // Views
 const authPanel = require('./views/auth-panel')
 const feedbackPanel = require('./views/feedback-panel')
@@ -26,8 +22,9 @@ const quotesList = require('./views/quotes-list')
 
 const app = choo()
 
-app.model(authModel)
-app.model(feedbackModel)
+app.model(require('./models/auth'))
+app.model(require('./models/feedback'))
+app.model(require('./models/quotes'))
 
 const mainView = (params, state, send) => {
   console.log(state)
@@ -36,6 +33,7 @@ const mainView = (params, state, send) => {
       ${authPanel(state.auth, send)}
       <div class="center">
        ${feedbackPanel(state.feedback, send)}
+       ${quotesList(state.quotes, state.auth, send)}
       </div>
     </div>
   `
