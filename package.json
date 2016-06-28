@@ -8,7 +8,7 @@
     "lint": "standard src/**/*.js",
     "lint:fix": "standard-format -w src/",
     "start": "npm run copy && budo src/app.js --open --dir=dist --live --pushstate -- ",
-    "copy": "mkdir -p dist && cp src/index.html src/kernel.txt dist/",
+    "copy": "mkdir -p dist && cp src/index.html dist/",
     "compile": "npm run copy && browserify src/app.js | uglifyjs -c > dist/app.js "
   },
   "browserify": {

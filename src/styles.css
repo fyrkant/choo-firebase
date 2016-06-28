@@ -1,0 +1,42 @@
+body {
+	padding-top: 1em;
+}
+
+input {
+	min-width: 300px;
+	margin-right: 1em;
+}
+
+.wrapper {
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.authpanel, .feedback, .newquoteform, .quote {
+	margin-bottom: 1em;
+	padding: 3px;
+}
+
+.authpanel {
+	border-bottom: 1px solid #CCC;
+}
+
+.feedback {
+	border: 1px solid #555;
+	padding: 0.5em;
+	background-color: #BFE6C5;
+	border-radius: 5px;
+}
+
+.feedback button {
+	float: right;
+}
+
+.feedback.error {
+	background-color: #E6C8C9;
+}
+
+.author {
+	font-size: 0.85em;
+	color: #555;
+}
