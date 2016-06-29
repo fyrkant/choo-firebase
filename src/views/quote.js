@@ -2,8 +2,6 @@ const choo = require('choo')
 const C = require('../constants')
 
 const quote = (quote, qid, quoteState, auth, send) => {
-  console.log(auth)
-  console.log(quote)
   const onSubmit = event => {
     event.preventDefault()
     const content = event.target.parentElement.querySelector('input').value
