@@ -1,6 +1,7 @@
 const choo = require('choo')
 const sf = require('sheetify')
 const mainView = require('./views/main')
+
 // Firebase setup and initialization
 const firebase = require('firebase/app')
 require('firebase/auth')

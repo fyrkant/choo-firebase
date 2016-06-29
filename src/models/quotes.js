@@ -20,28 +20,28 @@ module.exports = {
     receiveQuotesData: (action, state) => assign({}, state, { hasReceivedData: true, data: action.data }),
     awaitNewQuoteResponse: (action, state) => assign({}, state, { submittingNew: true }),
     reveiceNewQuoteResponse: (action, state) => assign({}, state, { submittingNew: false }),
-    startQuoteEdit: (action, state) => {
+    setIsEditing: (action, state) => {
       const newState = cloneDeep(state)
       newState.states[action.qid] = C.EDITING_QUOTE
       return newState
     },
-    finishQuoteEdit: (action, state) => {
+    setFinishedEditing: (action, state) => {
       const newState = cloneDeep(state)
       delete newState.states[action.qid]
       return newState
     },
-    submitQuoteEdit: (action, state) => {
+    setIsSubmitting: (action, state) => {
       const newState = cloneDeep(state)
-      newState.states[action.qid] = C.SUBMITTING_QUOTES
+      newState.states[action.qid] = C.SUBMITTING_QUOTE
       return newState
     }
   },
   effects: {
     deleteQuote: (action, state, send) => {
       const qid = action.qid
-      send('quotes:submitQuoteEdit', { qid })
+      send('quotes:setIsEditing', { qid })
       quotesRef.child(qid).remove(error => {
-        send('quotes:finishQuoteEdit', qid)
+        send('quotes:setFinishedEditing', qid)
         if (error) {
           send('feedback:displayError', { error: 'Deletion failed! ' + error })
         } else {
@@ -51,15 +51,23 @@ module.exports = {
     },
     submitQuoteEdit: (action, state, send) => {
       const {username, uid, qid, content} = action
+      console.log(content)
       const error = utils.validateQuote(content)
+      console.log(error)
 
       if (error) {
         send('feedback:displayError', { error })
       } else {
-        send('quotes:submitQuoteEdit', { qid })
+        send('quotes:setIsSubmitting', { qid })
         quotesRef.child(qid).set({content, username, uid})
-          .then(() => send('feedback:displayMessage', { message: 'Update successfully saved!' }))
-          .catch(error => send('feedback:displayError', { error }))
+          .then(() => {
+            send('feedback:displayMessage', { message: 'Update successfully saved!' })
+            send('quotes:setFinishedEditing', { qid })
+          })
+          .catch(err => {
+            send('feedback:displayError', { err })
+            send('quotes:setFinishedEditing', { qid })
+          })
       }
     },
     submitNewQuote: (action, state, send) => {
@@ -71,8 +79,14 @@ module.exports = {
       } else {
         send('quotes:awaitNewQuoteResponse')
         quotesRef.push({content, username, uid})
-          .then(() => send('feedback:displayMessage', { message: 'Quote successfully saved!' }))
-          .catch(error => send('feedback:displayError', { error }))
+          .then(() => {
+            send('feedback:displayMessage', { message: 'Quote successfully saved!' })
+            send('quotes:reveiceNewQuoteResponse')
+          })
+          .catch(error => {
+            send('feedback:displayError', { error })
+            send('quotes:reveiceNewQuoteResponse')
+          })
       }
     }
   },
