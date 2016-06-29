@@ -5,7 +5,6 @@ const feedbackPanel = require('./feedback-panel')
 const quotesList = require('./quotes-list')
 
 const mainView = (params, state, send) => {
-  console.log(state)
   return choo.view`
     <div class="wrapper">
       ${authPanel(state.auth, send)}

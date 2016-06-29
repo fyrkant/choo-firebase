@@ -4,7 +4,6 @@ const C = require('../constants')
 const utils = require('../utils')
 
 const firebase = require('firebase/app')
-require('firebase/database')
 
 const quotesRef = firebase.database().ref().child('quotes')
 
@@ -51,9 +50,7 @@ module.exports = {
     },
     submitQuoteEdit: (action, state, send) => {
       const {username, uid, qid, content} = action
-      console.log(content)
       const error = utils.validateQuote(content)
-      console.log(error)
 
       if (error) {
         send('feedback:displayError', { error })
@@ -92,7 +89,6 @@ module.exports = {
   },
   subscriptions: [
     send => quotesRef.on('value', snapshot => {
-      console.log(snapshot)
       send('quotes:receiveQuotesData', { data: snapshot.val() })
     })
   ]

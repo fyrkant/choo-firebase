@@ -6,12 +6,11 @@ const mainView = require('./views/main')
 const firebase = require('firebase/app')
 require('firebase/auth')
 require('firebase/database')
-const firebaseConfig = {
+firebase.initializeApp({
   apiKey: 'AIzaSyBMVVNLAtPx2jXrpbhU_3dnxpAPhrO6raE',
   authDomain: 'choo-firebase-2ec21.firebaseapp.com',
   databaseURL: 'https://choo-firebase-2ec21.firebaseio.com'
-}
-firebase.initializeApp(firebaseConfig)
+})
 
 // Sheetify
 sf('./styles.css', { global: true })
