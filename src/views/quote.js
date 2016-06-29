@@ -2,9 +2,10 @@ const choo = require('choo')
 const C = require('../constants')
 
 const quote = (quote, qid, quoteState, auth, send) => {
+  console.log(auth)
+  console.log(quote)
   const onSubmit = event => {
     event.preventDefault()
-    console.log(event)
     const content = event.target.parentElement.querySelector('input').value
     const {uid, username} = auth
 
@@ -27,7 +28,7 @@ const quote = (quote, qid, quoteState, auth, send) => {
       </div>
     `
   }
-  if (!quote.uid === auth.uid) {
+  if (quote.uid !== auth.uid) {
     button = ''
   } else if (quoteState === C.SUBMITTING_QUOTE) {
     button = choo.view`<button disabled>Submitting...</button>`
