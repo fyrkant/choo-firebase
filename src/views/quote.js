@@ -1,6 +1,9 @@
 const choo = require('choo')
 const C = require('../constants')
 
+const buttonMaker = (name, cb, ...cbArgs) =>
+  choo.view`<button type="button" onclick=${e => cb(...cbArgs, e)} >${name}</button>`
+
 const quote = (quote, qid, quoteState, auth, send) => {
   const onSubmit = event => {
     event.preventDefault()
@@ -15,17 +18,17 @@ const quote = (quote, qid, quoteState, auth, send) => {
         username
       })
   }
-  let button
-
   if (quoteState === C.EDITING_QUOTE) {
     return choo.view`
       <div class="quote">
         <input type="text" value=${quote.content} />
-        <button type="button" onclick=${e => send('quotes:setFinishedEditing', { qid })} >Cancel</button>
-        <button type="button" onclick=${onSubmit}>Submit</button>
+        ${buttonMaker('Cancel', send, 'quotes:setFinishedEditing', { qid })}
+        ${buttonMaker('Submit', onSubmit)}
       </div>
     `
   }
+
+  let button
   if (quote.uid !== auth.uid) {
     button = ''
   } else if (quoteState === C.SUBMITTING_QUOTE) {
@@ -33,8 +36,8 @@ const quote = (quote, qid, quoteState, auth, send) => {
   } else {
     button = choo.view`
       <span>
-        <button type="button" onclick=${e => send('quotes:setIsEditing', { qid })}>Edit</button>
-        <button type="button" onclick=${e => send('quotes:deleteQuote', { qid })}>Delete</button>
+        ${buttonMaker('Edit', send, 'quotes:setIsEditing', { qid })}
+        ${buttonMaker('Delete', send, 'quotes:deleteQuote', { qid })}
       </span>`
   }
   return choo.view`
