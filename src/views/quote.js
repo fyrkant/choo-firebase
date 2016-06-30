@@ -10,13 +10,7 @@ const quote = (quote, qid, quoteState, auth, send) => {
     const content = event.target.parentElement.querySelector('input').value
     const {uid, username} = auth
 
-    send('quotes:submitQuoteEdit',
-      {
-        content,
-        qid,
-        uid,
-        username
-      })
+    send('quotes:submitQuoteEdit', { content, qid, uid, username })
   }
   if (quoteState === C.EDITING_QUOTE) {
     return choo.view`
@@ -40,6 +34,7 @@ const quote = (quote, qid, quoteState, auth, send) => {
         ${buttonMaker('Delete', send, 'quotes:deleteQuote', { qid })}
       </span>`
   }
+
   return choo.view`
     <div class="quote">
       <span class="author">${quote.username} said: </span>

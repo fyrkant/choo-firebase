@@ -2,8 +2,6 @@ const choo = require('choo')
 const map = require('lodash/map')
 const quote = require('./quote')
 
-
-
 const quotesList = (quotes, auth, send) => {
   const onSubmit = event => {
     event.preventDefault()
