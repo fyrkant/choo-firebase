@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/mw222rs/choo-firebase#readme",
   "dependencies": {
-    "choo": "^2.3.0",
+    "choo": "^3.0.0",
     "firebase": "^3.0.5",
     "lodash": "^4.13.1"
   },

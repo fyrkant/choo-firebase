@@ -9,10 +9,10 @@ module.exports = {
     ]
   },
   reducers: {
-    dismiss: (action, state) => ({
-      messages: state.messages.filter((msg, i) => action.num !== i)
+    dismiss: (data, state) => ({
+      messages: state.messages.filter((msg, i) => data.num !== i)
     }),
-    displayError: (action, state) => ({messages: state.messages.concat({ msg: action.error, error: true })}),
-    displayMessage: (action, state) => ({messages: state.messages.concat({ msg: action.message, error: false })})
+    displayError: (data, state) => ({messages: state.messages.concat({ msg: data.error, error: true })}),
+    displayMessage: (data, state) => ({messages: state.messages.concat({ msg: data.message, error: false })})
   }
 }
