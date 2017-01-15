@@ -37,7 +37,7 @@ const quote = (quote, qid, quoteState, auth, send) => {
 
   return html`
     <div class="quote">
-      <span class="author">${quote.username} said: </span>
+      <span class="author">${quote.username ? quote.username : html`<em>A NAMELESS GHOUL</em>`} said: </span>
       ${quote.content} ${button}
     </div>
   `
