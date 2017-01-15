@@ -1,5 +1,5 @@
-const assign = require('lodash/assign')
-const cloneDeep = require('lodash/cloneDeep')
+const assign = require('lodash.assign')
+const cloneDeep = require('lodash.clonedeep')
 const C = require('../constants')
 const utils = require('../utils')
 
@@ -16,27 +16,27 @@ module.exports = {
     data: {}
   },
   reducers: {
-    receiveQuotesData: (data, state) => assign({}, state, { hasReceivedData: true, data: data.data }),
-    awaitNewQuoteResponse: (data, state) => assign({}, state, { submittingNew: true }),
-    reveiceNewQuoteResponse: (data, state) => assign({}, state, { submittingNew: false }),
-    setIsEditing: (data, state) => {
+    receiveQuotesData: (state, data) => assign({}, state, { hasReceivedData: true, data: data.data }),
+    awaitNewQuoteResponse: (state, data) => assign({}, state, { submittingNew: true }),
+    reveiceNewQuoteResponse: (state, data) => assign({}, state, { submittingNew: false }),
+    setIsEditing: (state, data) => {
       const newState = cloneDeep(state)
       newState.states[data.qid] = C.EDITING_QUOTE
       return newState
     },
-    setFinishedEditing: (data, state) => {
+    setFinishedEditing: (state, data) => {
       const newState = cloneDeep(state)
       delete newState.states[data.qid]
       return newState
     },
-    setIsSubmitting: (data, state) => {
+    setIsSubmitting: (state, data) => {
       const newState = cloneDeep(state)
       newState.states[data.qid] = C.SUBMITTING_QUOTE
       return newState
     }
   },
   effects: {
-    deleteQuote: (data, state, send, done) => {
+    deleteQuote: (state, data, send, done) => {
       const qid = data.qid
       send('quotes:setIsEditing', { qid }, done)
       quotesRef.child(qid).remove(error => {
@@ -48,7 +48,7 @@ module.exports = {
         }
       })
     },
-    submitQuoteEdit: (data, state, send, done) => {
+    submitQuoteEdit: (state, data, send, done) => {
       const {username, uid, qid, content} = data
       const error = utils.validateQuote(content)
 
@@ -67,8 +67,9 @@ module.exports = {
           })
       }
     },
-    submitNewQuote: (data, state, send, done) => {
-      const {content, uid, username} = data
+    submitNewQuote: (state, data, send, done) => {
+      const {input, uid, username} = data
+      const content = input.value
       const error = utils.validateQuote(content)
 
       if (error) {
@@ -79,6 +80,7 @@ module.exports = {
           .then(() => {
             send('feedback:displayMessage', { message: 'Quote successfully saved!' }, done)
             send('quotes:reveiceNewQuoteResponse', done)
+            input.value = ''
           })
           .catch(error => {
             send('feedback:displayError', { error }, done)

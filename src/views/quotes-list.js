@@ -1,16 +1,16 @@
 const html = require('choo/html')
-const map = require('lodash/map')
+const map = require('lodash.map')
 const quote = require('./quote')
 
 const quotesList = (quotes, auth, send) => {
   const onSubmit = event => {
     event.preventDefault()
 
-    const content = event.target.querySelector('input').value
+    const input = event.target.querySelector('input')
     const {uid, username} = auth
 
-    send('quotes:submitNewQuote', { uid, username, content })
-    event.target.querySelector('input').value = ''
+    send('quotes:submitNewQuote', { uid, username, input })
+    // event.target.querySelector('input').value = ''
   }
 
   const rows = map(quotes.data, (q, qid) => {

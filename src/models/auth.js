@@ -11,24 +11,24 @@ module.exports = {
     uid: null
   },
   reducers: {
-    attemptingLogin: (data, state) => ({
+    attemptingLogin: (state, data) => ({
       currently: C.AWAITING_AUTH_RESPONSE,
       username: 'guest',
       uid: null
     }),
-    logout: (data, state) => ({
+    logout: (state, data) => ({
       currently: C.ANONYMOUS,
       username: 'guest',
       uid: null
     }),
-    login: (data, state) => ({
+    login: (state, data) => ({
       currently: C.LOGGED_IN,
       username: data.username,
       uid: data.uid
     })
   },
   effects: {
-    attemptLogin: (data, state, send, done) => {
+    attemptLogin: (state, data, send, done) => {
       send('auth:attemptingLogin', done)
       const provider = new firebase.auth.GithubAuthProvider()
       auth.signInWithPopup(provider).catch(error => {
@@ -36,7 +36,7 @@ module.exports = {
         send('auth:logout', done)
       })
     },
-    logoutUser: (data, state, send, done) => {
+    logoutUser: (state, data, send, done) => {
       auth.signOut()
       send('auth:logout', done)
     }

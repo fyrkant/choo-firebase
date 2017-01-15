@@ -4,18 +4,12 @@
   "description": "Example of using firebase with choo.",
   "main": "index.js",
   "scripts": {
-    "deploy": "npm run compile && firebase deploy",
+    "deploy": "npm run build && firebase deploy",
     "lint": "eslint 'src/**/*.js'",
     "lint:fix": "eslint 'src/**/*.js' --fix",
-    "start": "npm run copy && budo src/app.js --open --dir=dist --live --pushstate -- ",
+    "start": "budo src/app.js --dir=dist --live --pushstate --port 8080",
     "copy": "mkdir -p dist && cp src/index.html dist/",
-    "compile": "npm run copy && browserify src/app.js | uglifyjs -c > dist/app.js "
-  },
-  "browserify": {
-    "transform": [
-      "sheetify/transform",
-      "babelify"
-    ]
+    "build": "npm run copy && NODE_ENV=production browserify src/app.js -t envify -t sheetify/transform -t babelify -g unassertify -g uglifyify | uglifyjs -o dist/app.js"
   },
   "repository": {
     "type": "git",
@@ -28,21 +22,28 @@
   },
   "homepage": "https://github.com/mw222rs/choo-firebase#readme",
   "dependencies": {
-    "choo": "^3.0.0",
+    "choo": "^4.0.3",
     "firebase": "^3.6.5",
-    "lodash": "^4.17.4"
+    "lodash.assign": "^4.2.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.map": "^4.6.0"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.18.0",
     "babelify": "^7.3.0",
     "browserify": "^13.3.0",
     "budo": "^9.4.5",
+    "envify": "^4.0.0",
+    "es2020": "^1.1.9",
     "eslint": "^3.13.1",
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.0.1",
     "insert-css": "^2.0.0",
     "sheetify": "^6.0.1",
-    "uglify-js": "^2.7.5"
+    "uglify-js": "^2.7.5",
+    "uglifyify": "^3.0.4",
+    "unassertify": "^2.0.4",
+    "yo-yoify": "^3.5.0"
   }
 }

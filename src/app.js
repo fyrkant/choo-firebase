@@ -6,6 +6,7 @@ const mainView = require('./views/main')
 const firebase = require('firebase/app')
 require('firebase/auth')
 require('firebase/database')
+
 firebase.initializeApp({
   apiKey: 'AIzaSyBMVVNLAtPx2jXrpbhU_3dnxpAPhrO6raE',
   authDomain: 'choo-firebase-2ec21.firebaseapp.com',
@@ -21,9 +22,7 @@ app.model(require('./models/auth'))
 app.model(require('./models/feedback'))
 app.model(require('./models/quotes'))
 
-app.router(route => [
-  route('/', mainView)
-])
+app.router(['/', mainView])
 
 const tree = app.start()
 document.body.appendChild(tree)
